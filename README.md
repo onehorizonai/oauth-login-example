@@ -1,6 +1,6 @@
-# Login with One Horizon
+# OAuth Login Example
 
-A small TypeScript app that shows how to add **Login with One Horizon** to a server-rendered web app.
+A small TypeScript app that shows how to add One Horizon login to a server-rendered web app.
 
 It uses the OAuth authorization code flow with PKCE:
 
@@ -39,7 +39,7 @@ ONE_HORIZON_CLIENT_SECRET=your-client-secret
 APP_BASE_URL=http://localhost:3000
 ```
 
-Then open [http://localhost:3000](http://localhost:3000).
+Open [http://localhost:3000](http://localhost:3000).
 
 ## Environment variables
 
