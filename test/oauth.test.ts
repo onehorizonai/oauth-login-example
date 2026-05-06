@@ -17,7 +17,6 @@ const config = getConfig({
   ONE_HORIZON_BASE_URL: "https://onehorizon.ai/",
   ONE_HORIZON_CLIENT_ID: "client_test",
   ONE_HORIZON_CLIENT_SECRET: "secret_test",
-  ONE_HORIZON_PROVIDER: "github",
   ONE_HORIZON_SCOPE: "openid profile email",
   PORT: "3000",
 });
@@ -44,7 +43,7 @@ describe("OAuth helpers", () => {
     expect(url.searchParams.get("code_challenge")).toBe("challenge");
     expect(url.searchParams.get("redirect_uri")).toBe(getCallbackUrl(config));
     expect(url.searchParams.get("response_type")).toBe("code");
-    expect(url.searchParams.get("provider")).toBe("github");
+    expect(url.searchParams.get("provider")).toBeNull();
     expect(url.searchParams.get("state")).toBe("state");
   });
 

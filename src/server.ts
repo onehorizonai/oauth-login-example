@@ -80,7 +80,7 @@ export function createServer(config = getConfig(), store = new MemoryStore()) {
 
   app.get("/", (req, res) => {
     const session = store.getSession(readCookie(req, SESSION_COOKIE));
-    res.type("html").send(renderHome(session, config.provider));
+    res.type("html").send(renderHome(session));
   });
 
   app.get("/login", (_req, res) => {

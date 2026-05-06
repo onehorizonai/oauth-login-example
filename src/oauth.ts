@@ -38,14 +38,13 @@ export function createPkcePair(): PkcePair {
 
 export function buildAuthorizeUrl(
   config: AppConfig,
-  params: { codeChallenge: string; provider?: string; state: string },
+  params: { codeChallenge: string; state: string },
 ): string {
   const url = new URL(getAuthorizeEndpoint(config));
 
   url.searchParams.set("client_id", config.clientId);
   url.searchParams.set("redirect_uri", getCallbackUrl(config));
   url.searchParams.set("response_type", "code");
-  url.searchParams.set("provider", params.provider || config.provider);
   url.searchParams.set("scope", config.scope);
   url.searchParams.set("state", params.state);
   url.searchParams.set("code_challenge", params.codeChallenge);

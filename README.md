@@ -4,6 +4,8 @@ Server-side OAuth login for a TypeScript app.
 
 The app sends users to One Horizon, checks the callback with `state` and PKCE, then exchanges the code on the server. The client secret and tokens stay out of browser code.
 
+One Horizon handles the provider choice. After the user approves the app, they can sign in with any provider enabled in One Horizon, such as Google or GitHub.
+
 ## Set up your One Horizon app
 
 1. Open **Settings -> Apps** in One Horizon.
@@ -53,7 +55,6 @@ Open [http://localhost:3000](http://localhost:3000).
 | `ONE_HORIZON_CLIENT_SECRET` | Yes | Client secret from **Settings -> Apps**. Never expose it in browser code. |
 | `APP_BASE_URL` | Yes | Public base URL for this app, without a trailing slash. |
 | `ONE_HORIZON_BASE_URL` | No | Defaults to `https://onehorizon.ai`. |
-| `ONE_HORIZON_PROVIDER` | No | Defaults to `github`. Use the provider you enabled for sign-in. |
 | `ONE_HORIZON_SCOPE` | No | Defaults to `openid profile email`. |
 | `PORT` | No | Defaults to `3000`. |
 

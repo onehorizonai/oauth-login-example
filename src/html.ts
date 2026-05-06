@@ -17,7 +17,7 @@ function actionButton(action: string, label: string): string {
   `;
 }
 
-export function renderHome(session: UserSession | null, provider: string): string {
+export function renderHome(session: UserSession | null): string {
   const signedIn = Boolean(session);
   const scope = session?.token.scope ? escapeHtml(session.token.scope) : "No scope returned";
   const tokenType = session?.token.token_type
@@ -64,7 +64,7 @@ export function renderHome(session: UserSession | null, provider: string): strin
               <dt>Scope</dt><dd>${scope}</dd>
               <dt>Refresh token</dt><dd>${session?.token.refresh_token ? "Stored on the server" : "No refresh token returned"}</dd>
             </dl>`
-          : `<p>Provider: <strong>${escapeHtml(provider)}</strong></p>`
+          : "<p>One Horizon will ask which provider to use after you click sign in.</p>"
       }
       <div class="actions">
         ${

@@ -4,12 +4,10 @@ export interface AppConfig {
   clientSecret: string;
   oneHorizonBaseUrl: string;
   port: number;
-  provider: string;
   scope: string;
 }
 
 const DEFAULT_ONE_HORIZON_BASE_URL = "https://onehorizon.ai";
-const DEFAULT_PROVIDER = "github";
 const DEFAULT_SCOPE = "openid profile email";
 const DEFAULT_PORT = 3000;
 
@@ -44,7 +42,6 @@ export function getConfig(env: NodeJS.ProcessEnv = process.env): AppConfig {
     clientSecret: required(env, "ONE_HORIZON_CLIENT_SECRET"),
     oneHorizonBaseUrl,
     port,
-    provider: env.ONE_HORIZON_PROVIDER?.trim() || DEFAULT_PROVIDER,
     scope: env.ONE_HORIZON_SCOPE?.trim() || DEFAULT_SCOPE,
   };
 }
