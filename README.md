@@ -33,6 +33,8 @@ cp .env.example .env
 yarn dev
 ```
 
+`yarn dev` and `yarn start` load `.env` when the file exists. In production, you can set the same variables through your host instead.
+
 Set these values:
 
 ```bash
