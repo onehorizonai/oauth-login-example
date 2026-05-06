@@ -1,25 +1,25 @@
-# OAuth Login Example
+# OAuth login example
 
-A small TypeScript app that shows how to add One Horizon login to a server-rendered web app.
+Add One Horizon login to a server-rendered TypeScript app.
 
-It uses the OAuth authorization code flow with PKCE:
+This repo shows the full server-side OAuth flow:
 
-- Redirect users to One Horizon.
-- Verify the returned `state`.
-- Exchange the code on the server with your client ID, client secret, and PKCE verifier.
-- Keep tokens server-side.
+- Send the user to One Horizon.
+- Protect the redirect with `state` and PKCE.
+- Exchange the code on the server with your client ID and client secret.
+- Keep tokens out of the browser.
 
-## Create the app in One Horizon
+## Set up your One Horizon app
 
 1. Open **Settings -> Apps** in One Horizon.
 2. Create an app.
-3. Add this callback URL:
+3. Add the local callback URL:
 
    ```text
    http://localhost:3000/oauth/callback
    ```
 
-4. Copy the client ID and client secret.
+4. Copy the client ID and client secret into `.env`.
 
 Use your production callback URL when you deploy the app.
 
@@ -31,7 +31,7 @@ cp .env.example .env
 yarn dev
 ```
 
-Fill in `.env`:
+Set these values:
 
 ```bash
 ONE_HORIZON_CLIENT_ID=your-client-id
@@ -45,30 +45,30 @@ Open [http://localhost:3000](http://localhost:3000).
 
 | Name | Required | Description |
 | --- | --- | --- |
-| `ONE_HORIZON_CLIENT_ID` | Yes | Client ID from your One Horizon app. |
-| `ONE_HORIZON_CLIENT_SECRET` | Yes | Client secret from your One Horizon app. Keep it server-side. |
-| `APP_BASE_URL` | Yes | Public base URL for this app. |
+| `ONE_HORIZON_CLIENT_ID` | Yes | Client ID from **Settings -> Apps**. |
+| `ONE_HORIZON_CLIENT_SECRET` | Yes | Client secret from **Settings -> Apps**. Never expose it in browser code. |
+| `APP_BASE_URL` | Yes | Public base URL for this app, without a trailing slash. |
 | `ONE_HORIZON_BASE_URL` | No | Defaults to `https://onehorizon.ai`. |
-| `ONE_HORIZON_PROVIDER` | No | Defaults to `github`. Use the provider your app expects. |
+| `ONE_HORIZON_PROVIDER` | No | Defaults to `github`. Use the provider you enabled for sign-in. |
 | `ONE_HORIZON_SCOPE` | No | Defaults to `openid profile email`. |
 | `PORT` | No | Defaults to `3000`. |
 
 ## Files to read first
 
-- [`src/server.ts`](src/server.ts): Routes for login, callback, refresh, and logout.
+- [`src/server.ts`](src/server.ts): Login, callback, refresh, and logout routes.
 - [`src/oauth.ts`](src/oauth.ts): PKCE, authorize URL, and token request helpers.
-- [`src/session-store.ts`](src/session-store.ts): In-memory flow and session storage.
+- [`src/session-store.ts`](src/session-store.ts): In-memory OAuth flow and session storage.
 
 ## Production notes
 
-- Do not send `ONE_HORIZON_CLIENT_SECRET` to the browser.
-- Keep using PKCE. Workspace apps use client-supplied PKCE.
-- Store OAuth flow state and sessions in Redis, Postgres, or another durable store.
+- Keep `ONE_HORIZON_CLIENT_SECRET` on the server.
+- Keep PKCE enabled. One Horizon workspace apps use client-supplied PKCE.
+- Move OAuth state and sessions from memory to Redis, Postgres, or another durable store.
 - Set `APP_BASE_URL` to your deployed HTTPS URL.
-- Add the deployed callback URL to your One Horizon app before going live.
-- Avoid logging access tokens, refresh tokens, authorization codes, or client secrets.
+- Add the deployed callback URL in **Settings -> Apps** before launch.
+- Do not log access tokens, refresh tokens, authorization codes, or client secrets.
 
-## Scripts
+## Checks
 
 ```bash
 yarn typecheck

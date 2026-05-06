@@ -94,7 +94,7 @@ export async function exchangeToken(
   const responseText = await response.text();
 
   if (!response.ok) {
-    throw new Error(`Token exchange failed (${response.status}): ${responseText}`);
+    throw new Error(`One Horizon token exchange failed (${response.status}): ${responseText}`);
   }
 
   return JSON.parse(responseText) as TokenResponse;

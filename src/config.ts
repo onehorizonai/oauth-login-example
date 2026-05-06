@@ -35,7 +35,7 @@ export function getConfig(env: NodeJS.ProcessEnv = process.env): AppConfig {
   const port = Number(env.PORT || DEFAULT_PORT);
 
   if (!Number.isInteger(port) || port < 1 || port > 65535) {
-    throw new Error("PORT must be a valid TCP port number.");
+    throw new Error("PORT must be a number between 1 and 65535.");
   }
 
   return {

@@ -112,7 +112,7 @@ export function createServer(config = getConfig(), store = new MemoryStore()) {
     const flow = flowId ? store.consumeFlow(flowId) : null;
 
     if (!code || !state || !flow || flow.state !== state) {
-      fail(res, 400, "Invalid OAuth callback. Start a new sign-in flow.");
+      fail(res, 400, "This sign-in link is invalid or expired. Start again.");
       return;
     }
 
@@ -130,7 +130,7 @@ export function createServer(config = getConfig(), store = new MemoryStore()) {
       ]);
       res.redirect("/");
     } catch (err) {
-      const message = err instanceof Error ? err.message : "Unknown token exchange error.";
+      const message = err instanceof Error ? err.message : "Could not exchange the code.";
       fail(res, 502, message);
     }
   });
@@ -152,7 +152,7 @@ export function createServer(config = getConfig(), store = new MemoryStore()) {
       store.updateSession(sessionId, token);
       res.redirect("/");
     } catch (err) {
-      const message = err instanceof Error ? err.message : "Unknown refresh error.";
+      const message = err instanceof Error ? err.message : "Could not refresh the token.";
       fail(res, 502, message);
     }
   });
@@ -175,6 +175,6 @@ if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) 
   const app = createServer(config);
 
   app.listen(config.port, () => {
-    console.log(`Login with One Horizon example running at ${config.appBaseUrl}`);
+    console.log(`OAuth login example running at ${config.appBaseUrl}`);
   });
 }

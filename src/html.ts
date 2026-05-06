@@ -19,15 +19,17 @@ function actionButton(action: string, label: string): string {
 
 export function renderHome(session: UserSession | null, provider: string): string {
   const signedIn = Boolean(session);
-  const scope = session?.token.scope ? escapeHtml(session.token.scope) : "Not returned";
-  const tokenType = session?.token.token_type ? escapeHtml(session.token.token_type) : "Not returned";
+  const scope = session?.token.scope ? escapeHtml(session.token.scope) : "No scope returned";
+  const tokenType = session?.token.token_type
+    ? escapeHtml(session.token.token_type)
+    : "No token type returned";
 
   return `<!doctype html>
 <html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Login with One Horizon</title>
+    <title>OAuth login example</title>
     <style>
       :root { color-scheme: light dark; font-family: Inter, ui-sans-serif, system-ui, sans-serif; }
       body { margin: 0; min-height: 100vh; display: grid; place-items: center; background: #f6f6f3; color: #20201d; }
@@ -53,22 +55,22 @@ export function renderHome(session: UserSession | null, provider: string): strin
   <body>
     <main class="panel">
       <span class="status"><span class="dot"></span>${signedIn ? "Signed in" : "Signed out"}</span>
-      <h1>Login with One Horizon</h1>
-      <p>This example runs the OAuth authorization code flow with PKCE. The client secret stays on the server and is only sent to the token endpoint.</p>
+      <h1>OAuth login example</h1>
+      <p>This demo runs One Horizon login with PKCE. The client secret stays on the server and is only sent to the token endpoint.</p>
       ${
         signedIn
           ? `<dl>
               <dt>Token type</dt><dd>${tokenType}</dd>
               <dt>Scope</dt><dd>${scope}</dd>
-              <dt>Refresh token</dt><dd>${session?.token.refresh_token ? "Stored server-side" : "Not returned"}</dd>
+              <dt>Refresh token</dt><dd>${session?.token.refresh_token ? "Stored on the server" : "No refresh token returned"}</dd>
             </dl>`
-          : `<p>Start with the configured provider: <strong>${escapeHtml(provider)}</strong>.</p>`
+          : `<p>Provider: <strong>${escapeHtml(provider)}</strong></p>`
       }
       <div class="actions">
         ${
           signedIn
             ? `${session?.token.refresh_token ? actionButton("/refresh", "Refresh token") : ""}${actionButton("/logout", "Sign out")}`
-            : `<a class="button" href="/login">Sign in</a>`
+            : `<a class="button" href="/login">Sign in with One Horizon</a>`
         }
       </div>
     </main>

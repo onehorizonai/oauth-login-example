@@ -30,7 +30,7 @@ describe("OAuth helpers", () => {
     );
   });
 
-  it("builds the One Horizon authorize URL without exposing the client secret", () => {
+  it("builds an authorize URL without exposing the client secret", () => {
     const url = new URL(
       buildAuthorizeUrl(config, {
         codeChallenge: "challenge",
@@ -48,7 +48,7 @@ describe("OAuth helpers", () => {
     expect(url.searchParams.get("state")).toBe("state");
   });
 
-  it("builds the code exchange body for a confidential PKCE client", () => {
+  it("builds a server-side code exchange request", () => {
     const body = buildCodeExchangeBody(config, {
       code: "code",
       codeVerifier: "verifier",
@@ -62,7 +62,7 @@ describe("OAuth helpers", () => {
     expect(body.get("redirect_uri")).toBe("http://localhost:3000/oauth/callback");
   });
 
-  it("builds the refresh body for a confidential client", () => {
+  it("builds a server-side refresh request", () => {
     const body = buildRefreshBody(config, { refreshToken: "refresh" });
 
     expect(getTokenEndpoint(config)).toBe("https://onehorizon.ai/app/auth/token");
