@@ -25,6 +25,8 @@ Use your production callback URL when you deploy the app.
 
 ## Run locally
 
+Use Node 20. The repo includes `.nvmrc` and `.node-version`.
+
 ```bash
 yarn install
 cp .env.example .env
