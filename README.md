@@ -2,12 +2,7 @@
 
 Server-side OAuth login for a TypeScript app.
 
-Use this example to:
-
-- Send the user to One Horizon.
-- Protect the redirect with `state` and PKCE.
-- Exchange the code on your server.
-- Keep the client secret and tokens out of browser code.
+The app sends users to One Horizon, checks the callback with `state` and PKCE, then exchanges the code on the server. The client secret and tokens stay out of browser code.
 
 ## Set up your One Horizon app
 
@@ -21,7 +16,7 @@ Use this example to:
 
 4. Copy the client ID and client secret into `.env`.
 
-When you deploy, add your production callback URL too.
+For a deployed app, add the production callback URL as well.
 
 ## Run locally
 
@@ -46,7 +41,9 @@ Then start the app:
 yarn dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000). `yarn dev` and `yarn start` load `.env` when it exists. In production, set the same variables in your host.
+Open [http://localhost:3000](http://localhost:3000).
+
+`yarn dev` and `yarn start` load `.env` when it exists. In production, set these variables in your host instead.
 
 ## Environment variables
 
@@ -66,7 +63,7 @@ Open [http://localhost:3000](http://localhost:3000). `yarn dev` and `yarn start`
 - [`src/oauth.ts`](src/oauth.ts): PKCE, authorize URL, and token exchange helpers
 - [`src/session-store.ts`](src/session-store.ts): In-memory OAuth flow and session storage
 
-## Production notes
+## Before deploying
 
 - Keep `ONE_HORIZON_CLIENT_SECRET` server-side.
 - Keep PKCE enabled. One Horizon workspace apps use client-supplied PKCE.
