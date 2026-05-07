@@ -8,7 +8,7 @@ One Horizon handles the provider choice. After the user approves the app, they c
 
 ## Set up your One Horizon app
 
-1. Open **Settings -> Apps** in One Horizon.
+1. Open <a href="https://onehorizon.ai/app/my/settings/apps" rel="nofollow">Settings -> Apps</a> in One Horizon.
 2. Create an app.
 3. Add the local callback URL:
 
@@ -51,8 +51,8 @@ Open [http://localhost:3000](http://localhost:3000).
 
 | Name | Required | Description |
 | --- | --- | --- |
-| `ONE_HORIZON_CLIENT_ID` | Yes | Client ID from **Settings -> Apps**. |
-| `ONE_HORIZON_CLIENT_SECRET` | Yes | Client secret from **Settings -> Apps**. Never expose it in browser code. |
+| `ONE_HORIZON_CLIENT_ID` | Yes | Client ID from <a href="https://onehorizon.ai/app/my/settings/apps" rel="nofollow">Settings -> Apps</a>. |
+| `ONE_HORIZON_CLIENT_SECRET` | Yes | Client secret from <a href="https://onehorizon.ai/app/my/settings/apps" rel="nofollow">Settings -> Apps</a>. Never expose it in browser code. |
 | `APP_BASE_URL` | Yes | Public base URL for this app, without a trailing slash. |
 | `ONE_HORIZON_BASE_URL` | No | Defaults to `https://onehorizon.ai`. |
 | `ONE_HORIZON_SCOPE` | No | Defaults to `openid profile email`. |
@@ -70,7 +70,7 @@ Open [http://localhost:3000](http://localhost:3000).
 - Keep PKCE enabled. One Horizon workspace apps use client-supplied PKCE.
 - Move OAuth state and sessions from memory to Redis, Postgres, or another durable store.
 - Set `APP_BASE_URL` to your deployed HTTPS URL.
-- Add the deployed callback URL in **Settings -> Apps** before launch.
+- Add the deployed callback URL in <a href="https://onehorizon.ai/app/my/settings/apps" rel="nofollow">Settings -> Apps</a> before launch.
 - Do not log access tokens, refresh tokens, authorization codes, or client secrets.
 
 ## Checks
