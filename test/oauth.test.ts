@@ -3,12 +3,10 @@ import {
   getAuthorizeEndpoint,
   getCallbackUrl,
   getConfig,
-  getTokenEndpoint,
 } from "../src/config.js";
 import {
   buildAuthorizeUrl,
   buildCodeExchangeBody,
-  buildRefreshBody,
   createCodeChallenge,
 } from "../src/oauth.js";
 
@@ -59,15 +57,5 @@ describe("OAuth helpers", () => {
     expect(body.get("code")).toBe("code");
     expect(body.get("code_verifier")).toBe("verifier");
     expect(body.get("redirect_uri")).toBe("http://localhost:3000/oauth/callback");
-  });
-
-  it("builds a server-side refresh request", () => {
-    const body = buildRefreshBody(config, { refreshToken: "refresh" });
-
-    expect(getTokenEndpoint(config)).toBe("https://onehorizon.ai/app/auth/token");
-    expect(body.get("grant_type")).toBe("refresh_token");
-    expect(body.get("client_id")).toBe("client_test");
-    expect(body.get("client_secret")).toBe("secret_test");
-    expect(body.get("refresh_token")).toBe("refresh");
   });
 });

@@ -4,7 +4,6 @@ import { getConfig, type AppConfig } from "./config.js";
 import {
   buildAuthorizeUrl,
   buildCodeExchangeBody,
-  buildRefreshBody,
   createPkcePair,
   createRandomToken,
   exchangeToken,
@@ -74,10 +73,6 @@ export function createServer(config = getConfig(), store = new MemoryStore()) {
   });
   app.use(express.urlencoded({ extended: false }));
 
-  app.get("/healthz", (_req, res) => {
-    res.status(200).json({ ok: true });
-  });
-
   app.get("/", (req, res) => {
     const session = store.getSession(readCookie(req, SESSION_COOKIE));
     res.type("html").send(renderHome(session));
@@ -88,6 +83,7 @@ export function createServer(config = getConfig(), store = new MemoryStore()) {
     const state = createRandomToken();
     const { codeChallenge, codeVerifier } = createPkcePair();
 
+    // The cookie stores only a random flow ID. The PKCE verifier stays server-side.
     store.createFlow(flowId, {
       codeVerifier,
       createdAt: Date.now(),
@@ -111,6 +107,7 @@ export function createServer(config = getConfig(), store = new MemoryStore()) {
     const flowId = readCookie(req, FLOW_COOKIE);
     const flow = flowId ? store.consumeFlow(flowId) : null;
 
+    // State prevents callback mixups and replayed links.
     if (!code || !state || !flow || flow.state !== state) {
       fail(res, 400, "This sign-in link is invalid or expired. Start again.");
       return;
@@ -123,6 +120,7 @@ export function createServer(config = getConfig(), store = new MemoryStore()) {
       );
       const sessionId = createRandomToken();
 
+      // Store tokens server-side and send the browser only an opaque session ID.
       store.createSession(sessionId, token);
       res.setHeader("Set-Cookie", [
         clearCookie(FLOW_COOKIE),
@@ -131,28 +129,6 @@ export function createServer(config = getConfig(), store = new MemoryStore()) {
       res.redirect("/");
     } catch (err) {
       const message = err instanceof Error ? err.message : "Could not exchange the code.";
-      fail(res, 502, message);
-    }
-  });
-
-  app.post("/refresh", async (req, res) => {
-    const sessionId = readCookie(req, SESSION_COOKIE);
-    const session = store.getSession(sessionId);
-
-    if (!sessionId || !session?.token.refresh_token) {
-      res.redirect("/");
-      return;
-    }
-
-    try {
-      const token = await exchangeToken(
-        config,
-        buildRefreshBody(config, { refreshToken: session.token.refresh_token }),
-      );
-      store.updateSession(sessionId, token);
-      res.redirect("/");
-    } catch (err) {
-      const message = err instanceof Error ? err.message : "Could not refresh the token.";
       fail(res, 502, message);
     }
   });

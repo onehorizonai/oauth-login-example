@@ -60,7 +60,7 @@ Open [http://localhost:3000](http://localhost:3000).
 
 ## Files to read first
 
-- [`src/server.ts`](src/server.ts): Login, callback, refresh, and logout routes
+- [`src/server.ts`](src/server.ts): Login, callback, and logout routes
 - [`src/oauth.ts`](src/oauth.ts): PKCE, authorize URL, and token exchange helpers
 - [`src/session-store.ts`](src/session-store.ts): In-memory OAuth flow and session storage
 

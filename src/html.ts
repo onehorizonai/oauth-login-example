@@ -179,7 +179,7 @@ export function renderHome(session: UserSession | null): string {
           <div class="actions">
             ${
               signedIn
-                ? `${session?.token.refresh_token ? actionButton("/refresh", "Refresh token") : ""}${actionButton("/logout", "Sign out")}`
+                ? actionButton("/logout", "Sign out")
                 : `<a class="button" href="/login">Sign in with One Horizon</a>`
             }
           </div>
@@ -191,7 +191,7 @@ export function renderHome(session: UserSession | null): string {
               ? `<dl>
                   <dt>Token type</dt><dd>${tokenType}</dd>
                   <dt>Scope</dt><dd>${scope}</dd>
-                  <dt>Refresh token</dt><dd>${session?.token.refresh_token ? "Stored on the server" : "No refresh token returned"}</dd>
+                  <dt>Tokens</dt><dd>Stored on the server</dd>
                 </dl>`
               : `<ul class="hint">
                   <li>One Horizon shows the available providers after sign in starts.</li>

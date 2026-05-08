@@ -31,6 +31,7 @@ export function createPkcePair(): PkcePair {
   const codeVerifier = createRandomToken(64);
 
   return {
+    // Send only the challenge to One Horizon. Keep the verifier on the server for the callback.
     codeChallenge: createCodeChallenge(codeVerifier),
     codeVerifier,
   };
@@ -63,18 +64,6 @@ export function buildCodeExchangeBody(
     code: params.code,
     code_verifier: params.codeVerifier,
     redirect_uri: getCallbackUrl(config),
-  });
-}
-
-export function buildRefreshBody(
-  config: AppConfig,
-  params: { refreshToken: string },
-): URLSearchParams {
-  return new URLSearchParams({
-    grant_type: "refresh_token",
-    client_id: config.clientId,
-    client_secret: config.clientSecret,
-    refresh_token: params.refreshToken,
   });
 }
 
